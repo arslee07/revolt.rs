@@ -1,0 +1,13 @@
+[package]
+name = "revolt-gateway"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1.20", features = ["full"] }
+tokio-stream = "0.1"
+tokio-tungstenite = { version = "0.17", features = ["rustls-tls-webpki-roots"] }
+revolt-models = { path = '../revolt-models' }
+serde = "1.0"
+serde_json = "1.0"
+futures-util = "0.3.21"

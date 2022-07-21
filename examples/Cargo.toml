@@ -1,0 +1,18 @@
+[package]
+name = "examples"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[dev-dependencies]
+revolt-models = { path = "../revolt-models" }
+revolt-http = { path = "../revolt-http" }
+revolt-gateway = { path = "../revolt-gateway" }
+
+[[example]]
+name = "ping-pong"
+path = "ping-pong.rs"
+
+[dependencies]
+futures-util = "0.3.21"
+tokio = { version = "1.20", features = ["full"] }

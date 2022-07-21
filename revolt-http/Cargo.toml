@@ -1,0 +1,10 @@
+[package]
+name = "revolt-http"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = { version = "0.11.11", features = ["json", "rustls-tls"] }
+serde_json = "1.0.82"
+revolt-models = { path = "../revolt-models", version = "0.1.0" }
+serde = "1.0.139"
