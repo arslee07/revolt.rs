@@ -37,6 +37,7 @@ async fn main() -> Result {
 
     // Wait for new event and then handle it
     while let Some(event) = ws.next().await {
+        let event = event?;
         handle_event(event, Arc::clone(&ctx)).await?;
     }
 

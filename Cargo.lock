@@ -716,6 +716,7 @@ dependencies = [
  "revolt-models",
  "serde",
  "serde_json",
+ "thiserror",
  "tokio",
  "tokio-stream",
  "tokio-tungstenite",

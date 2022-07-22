@@ -11,3 +11,4 @@ revolt-models = { path = '../revolt-models' }
 serde = "1.0"
 serde_json = "1.0"
 futures-util = "0.3.21"
+thiserror = "1.0.31"
