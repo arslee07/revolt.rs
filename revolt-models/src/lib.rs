@@ -1,3 +1,4 @@
+pub mod attachment;
 pub mod authentication;
 pub mod event;
 pub mod message;
