@@ -750,12 +750,14 @@ dependencies = [
  "revolt-models",
  "serde",
  "serde_json",
+ "thiserror",
 ]
 
 [[package]]
 name = "revolt-models"
 version = "0.1.0"
 dependencies = [
+ "bitflags",
  "iso8601-timestamp",
  "serde",
  "serde_json",
