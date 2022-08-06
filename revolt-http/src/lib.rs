@@ -1,10 +1,10 @@
-use reqwest::{Client, Method, StatusCode};
+use reqwest::{Client, StatusCode};
 use revolt_models::{
     authentication::Authentication, message::Message, payload::SendMessagePayload, ApiError,
 };
-use serde::Serialize;
+use std::result::Result as StdResult;
 
-type Result<T> = std::result::Result<T, RevoltHttpError>;
+type Result<T> = StdResult<T, RevoltHttpError>;
 
 #[derive(Debug, thiserror::Error)]
 pub enum RevoltHttpError {
@@ -16,6 +16,56 @@ pub enum RevoltHttpError {
 
     #[error("Error returned from API")]
     Api(ApiError),
+}
+
+macro_rules! ep {
+    ($self:ident, $ep:literal, $($args:tt)*) => {
+        format!(concat!("{}", $ep), $self.base_url, $($args)*)
+    };
+
+    (api_root = $api_root:expr, $ep:literal $($args:tt)*) => {
+        format!(concat!("{}", $ep), $api_root, $($args)*)
+    };
+}
+
+trait RequestBuilderExt {
+    fn auth(self, authentication: &Authentication) -> Self;
+}
+
+impl RequestBuilderExt for reqwest::RequestBuilder {
+    fn auth(self, authentication: &Authentication) -> Self {
+        self.header(authentication.header_key(), authentication.value())
+    }
+}
+
+#[async_trait::async_trait]
+trait ResponseExt {
+    async fn process_error(self) -> Result<Self>
+    where
+        Self: Sized;
+}
+
+#[async_trait::async_trait]
+impl ResponseExt for reqwest::Response {
+    async fn process_error(self) -> Result<Self>
+    where
+        Self: Sized,
+    {
+        let status = self.status();
+
+        if status.is_success() {
+            Ok(self)
+        } else {
+            // NOTE: it's a workaround thing but there are no alternative methods
+            // because API returns HTML instead of parseable JSON
+            // uhhhm also sorry for my broken english
+            if status == StatusCode::UNAUTHORIZED {
+                return Err(RevoltHttpError::Api(ApiError::Unauthenticated));
+            }
+
+            Err(RevoltHttpError::Api(ApiError::from(self.json().await?)))
+        }
+    }
 }
 
 pub struct RevoltHttp {
@@ -43,57 +93,21 @@ impl RevoltHttp {
 }
 
 impl RevoltHttp {
-    async fn req<B: Serialize, R: for<'de> serde::Deserialize<'de>>(
-        &self,
-        method: &str,
-        path: &str,
-        body: Option<B>,
-    ) -> Result<R> {
-        let mut r = self
-            .client
-            .request(
-                Method::from_bytes(method.as_bytes()).unwrap(),
-                format!("{}{}", self.base_url, path),
-            )
-            .header::<String, String>(
-                self.authentication.header_key(),
-                self.authentication.value(),
-            );
-
-        if let Some(b) = body {
-            r = r.json(&b);
-        }
-
-        let resp = r.send().await?;
-        let status = resp.status();
-        let body = resp.text().await?;
-
-        if status.is_success() {
-            let json = serde_json::from_str::<R>(&body)?;
-            Ok(json)
-        } else {
-            // NOTE: it's a workaround thing but there are no alternative methods
-            // because API returns HTML instead of parseable JSON
-            // uhhhm also sorry for my broken english
-            if status == StatusCode::UNAUTHORIZED {
-                return Err(RevoltHttpError::Api(ApiError::Unauthenticated));
-            }
-
-            let json = serde_json::from_str::<ApiError>(&body)?;
-            Err(RevoltHttpError::Api(ApiError::from(json)))
-        }
-    }
-
     pub async fn send_message(
         &self,
         channel_id: String,
         payload: SendMessagePayload,
-    ) -> Result<()> {
-        self.req(
-            "POST",
-            format!("/channels/{}/messages", channel_id).as_str(),
-            Some(payload),
-        )
-        .await
+    ) -> Result<Message> {
+        Ok(self
+            .client
+            .post(ep!(self, "/channels/{}/messages", channel_id))
+            .auth(&self.authentication)
+            .json(&payload)
+            .send()
+            .await?
+            .process_error()
+            .await?
+            .json()
+            .await?)
     }
 }

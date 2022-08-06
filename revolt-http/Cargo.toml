@@ -9,3 +9,4 @@ serde_json = "1.0.82"
 revolt-models = { path = "../revolt-models", version = "0.1.0" }
 serde = "1.0.139"
 thiserror = "1.0.31"
+async-trait = "0.1.57"
