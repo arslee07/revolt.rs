@@ -1,6 +1,7 @@
 use std::{env, error::Error, sync::Arc};
 
 use futures_util::StreamExt;
+
 use revolt_gateway::RevoltWs;
 use revolt_http::RevoltHttp;
 use revolt_models::{
@@ -9,6 +10,7 @@ use revolt_models::{
     message::Message,
     payload::SendMessagePayload,
 };
+use revolt_util::extensions::BuilderExt;
 
 // Context stores important things like revolt client or database connection
 struct Context {
@@ -70,10 +72,7 @@ async fn handle_message(message: Message, ctx: Arc<Context>) -> Result {
 }
 
 async fn ping(message: Message, ctx: Arc<Context>) -> Result {
-    let payload = SendMessagePayload {
-        content: "pong".to_string(),
-    };
-
+    let payload = SendMessagePayload::builder().content("pong").build();
     ctx.http.send_message(message.channel, payload).await?;
 
     Ok(())

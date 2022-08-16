@@ -8,6 +8,7 @@ edition = "2021"
 revolt-models = { path = "../revolt-models" }
 revolt-http = { path = "../revolt-http" }
 revolt-gateway = { path = "../revolt-gateway" }
+revolt-util = { path = "../revolt-util" }
 
 [[example]]
 name = "ping-pong"
