@@ -132,6 +132,7 @@ dependencies = [
  "revolt-gateway",
  "revolt-http",
  "revolt-models",
+ "revolt-util",
  "tokio",
 ]
 
@@ -773,6 +774,13 @@ dependencies = [
  "iso8601-timestamp",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "revolt-util"
+version = "0.1.0"
+dependencies = [
+ "revolt-models",
 ]
 
 [[package]]

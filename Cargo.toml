@@ -3,5 +3,6 @@ members = [
     "examples",
     "revolt-models",
     "revolt-http",
-    "revolt-gateway"
+    "revolt-gateway",
+    "revolt-util"
 ]
