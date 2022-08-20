@@ -1,6 +1,6 @@
 use futures_util::{SinkExt, Stream, StreamExt};
 use revolt_models::event::{ClientToServerEvent, ServerToClientEvent};
-use std::{error::Error, time::Duration};
+use std::time::Duration;
 use tokio::{
     spawn,
     sync::mpsc::{self, UnboundedReceiver, UnboundedSender},
