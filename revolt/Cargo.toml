@@ -1,0 +1,10 @@
+[package]
+name = "revolt"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+revolt-models = { path = "../revolt-models", version = "0.1.0" }
+revolt-gateway = { path = "../revolt-gateway", version = "0.1.0" }
+revolt-http = { path = "../revolt-http", version = "0.1.0" }
+revolt-util = { path = "../revolt-util", version = "0.1.0" }
