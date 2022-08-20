@@ -4,6 +4,7 @@ pub enum Authentication {
     BotToken(String),
     ValidMfaTicket(String),
     UnvalidatedMfaTicket(String),
+    None,
 }
 
 impl Authentication {
@@ -13,6 +14,7 @@ impl Authentication {
             Authentication::BotToken(_) => "x-bot-token",
             Authentication::ValidMfaTicket(_) => "x-mfa-ticket",
             Authentication::UnvalidatedMfaTicket(_) => "x-mfa-ticket",
+            Authentication::None => "",
         }
         .to_string()
     }
@@ -23,6 +25,7 @@ impl Authentication {
             Authentication::BotToken(t) => t,
             Authentication::ValidMfaTicket(t) => t,
             Authentication::UnvalidatedMfaTicket(t) => t,
+            Authentication::None => "",
         }
         .to_string()
     }
