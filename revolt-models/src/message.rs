@@ -4,6 +4,11 @@ use std::collections::{HashMap, HashSet};
 
 use crate::{attachment::Attachment, embed::Embed};
 
+#[allow(dead_code)]
+fn if_false(t: &bool) -> bool {
+    !t
+}
+
 /// Channel message
 #[derive(Deserialize, Debug, Clone, PartialEq, Eq)]
 pub struct Message {
@@ -53,9 +58,24 @@ pub struct Message {
     #[serde(skip_serializing_if = "HashMap::is_empty", default)]
     pub reactions: HashMap<String, HashSet<String>>,
 
+    /// Information about how this message should be interacted with
+    #[serde(skip_serializing_if = "Interactions::is_default", default)]
+    pub interactions: Interactions,
+
     /// Name and / or avatar overrides for this message
     #[serde(skip_serializing_if = "Option::is_none")]
     pub masquerade: Option<Masquerade>,
+}
+
+/// Information to guide interactions on this message
+#[derive(Deserialize, Debug, Clone, Default, PartialEq, Eq)]
+pub struct Interactions {
+    /// Reactions which should always appear and be distinct
+    #[serde(skip_serializing_if = "Option::is_none", default)]
+    pub reactions: Option<HashSet<String>>,
+    /// Whether reactions should be restricted to the given list
+    #[serde(skip_serializing_if = "if_false", default)]
+    pub restrict_reactions: bool,
 }
 
 #[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
