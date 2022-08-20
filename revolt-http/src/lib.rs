@@ -1,3 +1,5 @@
+mod core;
+
 use reqwest::{Client, StatusCode};
 use revolt_models::{
     authentication::Authentication, message::Message, payload::SendMessagePayload, ApiError,
@@ -5,6 +7,10 @@ use revolt_models::{
 use std::result::Result as StdResult;
 
 type Result<T> = StdResult<T, RevoltHttpError>;
+
+pub(crate) mod prelude {
+    pub(crate) use crate::{ep, ResponseExt, Result, RevoltHttp};
+}
 
 #[derive(Debug, thiserror::Error)]
 pub enum RevoltHttpError {
@@ -18,9 +24,14 @@ pub enum RevoltHttpError {
     Api(ApiError),
 }
 
+#[macro_export]
 macro_rules! ep {
     ($self:ident, $ep:literal, $($args:tt)*) => {
         format!(concat!("{}", $ep), $self.base_url, $($args)*)
+    };
+
+    ($self:ident, $ep:literal) => {
+        format!(concat!("{}", $ep), $self.base_url)
     };
 
     (api_root = $api_root:expr, $ep:literal $($args:tt)*) => {
