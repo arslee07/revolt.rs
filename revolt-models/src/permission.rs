@@ -78,13 +78,6 @@ bitflags::bitflags! {
         // * Misc. permissions
         // % Bits 36 to 52: free area
         // % Bits 53 to 64: do not use
-
-        // * Grant all permissions
-        /// Safely grant all permissions
-        const GrantAllSafe = 0x000F_FFFF_FFFF_FFFF;
-
-        /// Grant all permissions
-        const GrantAll = u64::MAX;
     }
 }
 

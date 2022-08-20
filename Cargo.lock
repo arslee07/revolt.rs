@@ -32,6 +32,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
+name = "bitflags"
+version = "1.3.2"
+source = "git+https://github.com/bitflags/bitflags#810dc35aba3df7314de01b93c7aa137968e925d4"
+
+[[package]]
 name = "block-buffer"
 version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -540,7 +545,7 @@ version = "0.10.41"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "618febf65336490dfcf20b73f885f5651a0c89c64c2d4a8c3662585a70bf5bd0"
 dependencies = [
- "bitflags",
+ "bitflags 1.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "cfg-if",
  "foreign-types",
  "libc",
@@ -686,7 +691,7 @@ version = "0.2.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62f25bc4c7e55e0b0b7a1d43fb893f4fa1361d0abe38b9ce4f323c2adfe6ef42"
 dependencies = [
- "bitflags",
+ "bitflags 1.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -770,7 +775,7 @@ dependencies = [
 name = "revolt-models"
 version = "0.1.0"
 dependencies = [
- "bitflags",
+ "bitflags 1.3.2 (git+https://github.com/bitflags/bitflags)",
  "iso8601-timestamp",
  "serde",
  "serde_json",
@@ -857,7 +862,7 @@ version = "2.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2dc14f172faf8a0194a3aded622712b0de276821addc574fa54fc0a1167e10dc"
 dependencies = [
- "bitflags",
+ "bitflags 1.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "core-foundation",
  "core-foundation-sys",
  "libc",
