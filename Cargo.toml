@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "examples",
+    "revolt",
     "revolt-models",
     "revolt-http",
     "revolt-gateway",

@@ -5,10 +5,7 @@ publish = false
 edition = "2021"
 
 [dev-dependencies]
-revolt-models = { path = "../revolt-models" }
-revolt-http = { path = "../revolt-http" }
-revolt-gateway = { path = "../revolt-gateway" }
-revolt-util = { path = "../revolt-util" }
+revolt = { path = "../revolt" }
 
 [[example]]
 name = "ping-pong"

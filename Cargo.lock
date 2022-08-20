@@ -134,10 +134,7 @@ name = "examples"
 version = "0.0.0"
 dependencies = [
  "futures-util",
- "revolt-gateway",
- "revolt-http",
- "revolt-models",
- "revolt-util",
+ "revolt",
  "tokio",
 ]
 
@@ -743,6 +740,16 @@ dependencies = [
  "web-sys",
  "webpki-roots",
  "winreg",
+]
+
+[[package]]
+name = "revolt"
+version = "0.1.0"
+dependencies = [
+ "revolt-gateway",
+ "revolt-http",
+ "revolt-models",
+ "revolt-util",
 ]
 
 [[package]]

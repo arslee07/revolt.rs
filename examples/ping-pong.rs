@@ -2,15 +2,17 @@ use std::{env, error::Error, sync::Arc};
 
 use futures_util::StreamExt;
 
-use revolt_gateway::RevoltWs;
-use revolt_http::RevoltHttp;
-use revolt_models::{
-    authentication::Authentication,
-    event::{ClientToServerEvent, ServerToClientEvent},
-    message::Message,
-    payload::SendMessagePayload,
+use revolt::{
+    gateway::RevoltWs,
+    http::RevoltHttp,
+    models::{
+        authentication::Authentication,
+        event::{ClientToServerEvent, ServerToClientEvent},
+        message::Message,
+        payload::SendMessagePayload,
+    },
+    util::extensions::BuilderExt,
 };
-use revolt_util::extensions::BuilderExt;
 
 // Context stores important things like revolt client or database connection
 struct Context {
