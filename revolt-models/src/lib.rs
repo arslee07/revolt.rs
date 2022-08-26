@@ -7,6 +7,7 @@ pub mod event;
 pub mod message;
 pub mod payload;
 pub mod permission;
+pub mod server;
 pub mod user;
 
 mod error;
