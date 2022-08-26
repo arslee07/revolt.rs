@@ -1,5 +1,6 @@
 pub mod attachment;
 pub mod authentication;
+pub mod channel;
 pub mod core;
 pub mod embed;
 pub mod event;

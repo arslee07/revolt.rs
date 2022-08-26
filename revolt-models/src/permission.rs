@@ -92,3 +92,13 @@ bitflags::bitflags! {
         const Invite = 1 << 3;
     }
 }
+
+/// Representation of a single permission override
+/// as it appears on models and in the database
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct OverrideField {
+    /// Allow bit flags
+    a: i64,
+    /// Disallow bit flags
+    d: i64,
+}
