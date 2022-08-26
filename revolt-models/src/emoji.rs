@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 /// Information about what owns this emoji
 #[derive(Deserialize, Debug, Clone)]

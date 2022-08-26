@@ -2,7 +2,7 @@ use crate::attachment::Attachment;
 use serde::Deserialize;
 
 /// Embed
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(tag = "type")]
 pub enum Embed {
     Website(Metadata),
@@ -13,7 +13,7 @@ pub enum Embed {
 }
 
 /// Image
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Image {
     /// URL to the original image
     pub url: String,
@@ -29,7 +29,7 @@ pub struct Image {
 }
 
 /// Image positioning and size
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub enum ImageSize {
     /// Show large preview at the bottom of the embed
     Large,
@@ -39,7 +39,7 @@ pub enum ImageSize {
 }
 
 /// Video
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Video {
     /// URL to the original video
     pub url: String,
@@ -52,35 +52,29 @@ pub struct Video {
 }
 
 /// Text Embed
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Text {
     /// URL to icon
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub icon_url: Option<String>,
 
     /// URL for title
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<String>,
 
     /// Title of text embed
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
 
     /// Description of text embed
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
 
     /// ID of uploaded attachment
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub media: Option<Attachment>,
 
     /// CSS colour
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub colour: Option<String>,
 }
 
 /// Information about special remote content
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(tag = "type")]
 pub enum Special {
     /// No remote content
@@ -94,8 +88,6 @@ pub enum Special {
     /// YouTube video
     YouTube {
         id: String,
-
-        #[serde(skip_serializing_if = "Option::is_none")]
         timestamp: Option<String>,
     },
 
@@ -124,7 +116,7 @@ pub enum Special {
 }
 
 /// Type of remote Twitch content
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub enum TwitchType {
     Channel,
     Video,
@@ -132,58 +124,48 @@ pub enum TwitchType {
 }
 
 /// Type of remote Lightspeed.tv content
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub enum LightspeedType {
     Channel,
 }
 
 /// Type of remote Bandcamp content
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub enum BandcampType {
     Album,
     Track,
 }
 
 /// Website metadata
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Metadata {
     /// Direct URL to web page
-    #[serde(skip_serializing_if = "Option::is_none")]
-    url: Option<String>,
+    pub url: Option<String>,
 
     /// Original direct URL
-    #[serde(skip_serializing_if = "Option::is_none")]
-    original_url: Option<String>,
+    pub original_url: Option<String>,
 
     /// Remote content
-    #[serde(skip_serializing_if = "Option::is_none")]
-    special: Option<Special>,
+    pub special: Option<Special>,
 
     /// Title of website
-    #[serde(skip_serializing_if = "Option::is_none")]
-    title: Option<String>,
+    pub title: Option<String>,
 
     /// Description of website
-    #[serde(skip_serializing_if = "Option::is_none")]
-    description: Option<String>,
+    pub description: Option<String>,
 
     /// Embedded image
-    #[serde(skip_serializing_if = "Option::is_none")]
-    image: Option<Image>,
+    pub image: Option<Image>,
 
     /// Embedded video
-    #[serde(skip_serializing_if = "Option::is_none")]
-    video: Option<Video>,
+    pub video: Option<Video>,
 
     /// Site name
-    #[serde(skip_serializing_if = "Option::is_none")]
-    site_name: Option<String>,
+    pub site_name: Option<String>,
 
     /// URL to site icon
-    #[serde(skip_serializing_if = "Option::is_none")]
-    icon_url: Option<String>,
+    pub icon_url: Option<String>,
 
     /// CSS colour
-    #[serde(skip_serializing_if = "Option::is_none")]
-    colour: Option<String>,
+    pub colour: Option<String>,
 }

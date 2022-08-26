@@ -4,11 +4,6 @@ use serde::Deserialize;
 
 use crate::{attachment::Attachment, permission::OverrideField};
 
-#[allow(dead_code)]
-fn if_false(t: &bool) -> bool {
-    !t
-}
-
 /// Representation of a server role
 #[derive(Deserialize, Debug, Clone)]
 pub struct Role {
@@ -80,7 +75,7 @@ bitflags::bitflags! {
 }
 
 /// Representation of a server on Revolt
-#[derive(Deserialize, Debug, Clone, Default)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Server {
     /// Unique Id
     #[serde(rename = "_id")]

@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 /// Metadata associated with attachment
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(tag = "type")]
 pub enum Metadata {
     /// Attachment is just a generic uncategorised file
@@ -27,7 +27,7 @@ impl Default for Metadata {
 }
 
 /// Representation of an attachment on Revolt
-#[derive(Deserialize, Debug, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Attachment {
     /// Unique Id
     #[serde(rename = "_id")]
@@ -49,22 +49,16 @@ pub struct Attachment {
     pub size: isize,
 
     /// Whether this attachment was deleted
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub deleted: Option<bool>,
 
     /// Whether this attachment was reported
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub reported: Option<bool>,
 
     // NOTE: Theese 3 fields will be deprecated in the next update
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub message_id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub user_id: Option<String>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub server_id: Option<String>,
 
     /// ID of the object this attachment is associated with
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub object_id: Option<String>,
 }
