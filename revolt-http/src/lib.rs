@@ -1,4 +1,6 @@
+mod channel_information;
 mod core;
+mod user_information;
 
 use reqwest::{Client, StatusCode};
 use revolt_models::{
@@ -9,7 +11,7 @@ use std::result::Result as StdResult;
 type Result<T> = StdResult<T, RevoltHttpError>;
 
 pub(crate) mod prelude {
-    pub(crate) use crate::{ep, ResponseExt, Result, RevoltHttp};
+    pub(crate) use crate::{ep, RequestBuilderExt, ResponseExt, Result, RevoltHttp};
 }
 
 #[derive(Debug, thiserror::Error)]
