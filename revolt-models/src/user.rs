@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use serde::Deserialize;
 
 use crate::attachment::Attachment;
@@ -146,3 +148,51 @@ pub struct User {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub online: Option<bool>,
 }
+
+/// Partial representiation of a User on Revolt.
+#[derive(Deserialize, Debug, Clone)]
+pub struct PartialUser {
+    /// Unique Id
+    #[serde(rename = "_id")]
+    pub id: Option<String>,
+    /// Username
+    pub username: Option<String>,
+    /// Avatar attachment
+    pub avatar: Option<Attachment>,
+    /// Relationships with other users
+    pub relations: Option<Vec<Relationship>>,
+
+    /// Bitfield of user badges
+    pub badges: Option<i32>,
+    /// User's current status
+    pub status: Option<UserStatus>,
+    /// User's profile page
+    pub profile: Option<UserProfile>,
+
+    /// Enum of user flags
+    pub flags: Option<i32>,
+    /// Whether this user is privileged
+    pub privileged: Option<bool>,
+    /// Bot information
+    pub bot: Option<BotInformation>,
+
+    /// Current session user's relationship with this user
+    pub relationship: Option<RelationshipStatus>,
+    /// Whether this user is currently online
+    pub online: Option<bool>,
+}
+
+/// Optional fields on user object
+#[derive(Deserialize, Debug, PartialEq, Clone)]
+pub enum FieldsUser {
+    Avatar,
+    StatusText,
+    StatusPresence,
+    ProfileContent,
+    ProfileBackground,
+}
+
+/// HashMap of user settings
+/// Each key is mapped to a tuple consisting of the
+/// revision timestamp and serialised data (in JSON format)
+pub type UserSettings = HashMap<String, (i64, String)>;
