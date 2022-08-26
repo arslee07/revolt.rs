@@ -98,7 +98,7 @@ bitflags::bitflags! {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct OverrideField {
     /// Allow bit flags
-    a: i64,
+    a: Permission,
     /// Disallow bit flags
-    d: i64,
+    d: Permission,
 }
