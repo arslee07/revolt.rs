@@ -1,5 +1,6 @@
 mod channel_information;
 mod core;
+mod server_information;
 mod user_information;
 
 use reqwest::{Client, StatusCode};
