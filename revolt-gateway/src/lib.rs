@@ -17,6 +17,7 @@ pub enum GatewayError {
     SerializationError(#[from] serde_json::Error),
 }
 
+#[derive(Debug)]
 pub struct RevoltWs {
     server_event_receiver: UnboundedReceiver<Result<ServerToClientEvent, GatewayError>>,
     client_event_sender: UnboundedSender<ClientToServerEvent>,

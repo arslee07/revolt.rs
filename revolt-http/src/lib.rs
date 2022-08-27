@@ -80,6 +80,7 @@ impl ResponseExt for reqwest::Response {
     }
 }
 
+#[derive(Debug)]
 pub struct RevoltHttp {
     base_url: String,
     client: Client,
@@ -88,16 +89,12 @@ pub struct RevoltHttp {
 
 impl RevoltHttp {
     pub fn new(authentication: Authentication) -> Self {
-        RevoltHttp {
-            base_url: "https://api.revolt.chat".to_string(),
-            client: Client::new(),
-            authentication,
-        }
+        RevoltHttp::new_base_url(authentication, "https://api.revolt.chat")
     }
 
-    pub fn new_base_url(authentication: Authentication, base_url: String) -> Self {
+    pub fn new_base_url(authentication: Authentication, base_url: impl Into<String>) -> Self {
         RevoltHttp {
-            base_url,
+            base_url: base_url.into(),
             client: Client::new(),
             authentication,
         }
