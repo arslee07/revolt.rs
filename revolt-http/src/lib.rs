@@ -1,12 +1,10 @@
-mod channel_information;
-mod core;
-mod server_information;
-mod user_information;
+mod channels;
+mod revolt;
+mod servers;
+mod users;
 
 use reqwest::{Client, StatusCode};
-use revolt_models::{
-    authentication::Authentication, message::Message, payload::SendMessagePayload, ApiError,
-};
+use revolt_models::{authentication::Authentication, ApiError};
 use std::result::Result as StdResult;
 
 type Result<T> = StdResult<T, RevoltHttpError>;
@@ -103,25 +101,5 @@ impl RevoltHttp {
             client: Client::new(),
             authentication,
         }
-    }
-}
-
-impl RevoltHttp {
-    pub async fn send_message(
-        &self,
-        channel_id: String,
-        payload: SendMessagePayload,
-    ) -> Result<Message> {
-        Ok(self
-            .client
-            .post(ep!(self, "/channels/{}/messages", channel_id))
-            .auth(&self.authentication)
-            .json(&payload)
-            .send()
-            .await?
-            .process_error()
-            .await?
-            .json()
-            .await?)
     }
 }
