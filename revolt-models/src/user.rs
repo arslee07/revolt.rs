@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::attachment::Attachment;
 
@@ -25,7 +25,7 @@ pub struct Relationship {
 }
 
 /// Presence status
-#[derive(Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum Presence {
     Online,
     Idle,
@@ -34,11 +34,13 @@ pub enum Presence {
 }
 
 /// User's active status
-#[derive(Deserialize, Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct UserStatus {
     /// Custom status text
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub text: Option<String>,
     /// Current presence option
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub presence: Option<Presence>,
 }
 
@@ -49,6 +51,19 @@ pub struct UserProfile {
     pub content: Option<String>,
     /// Background visible on user's profile
     pub background: Option<Attachment>,
+}
+
+/// Partial user's profile
+///
+/// This object not contains additional background attachment data
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct PartialUserProfile {
+    /// Text to set as user profile description
+    #[serde(skip_serializing_if = "Option::is_none")]
+    content: Option<String>,
+    /// Attachment Id for background
+    #[serde(skip_serializing_if = "Option::is_none")]
+    background: Option<String>,
 }
 
 bitflags::bitflags! {
@@ -170,7 +185,7 @@ pub struct PartialUser {
 }
 
 /// Optional fields on user object
-#[derive(Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub enum FieldsUser {
     Avatar,
     StatusText,
