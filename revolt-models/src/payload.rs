@@ -1,6 +1,9 @@
 use serde::Serialize;
 
-use crate::user::{FieldsUser, PartialUserProfile, UserStatus};
+use crate::{
+    channel::FieldsChannel,
+    user::{FieldsUser, PartialUserProfile, UserStatus},
+};
 
 #[derive(Serialize, Debug, Clone)]
 pub struct SendMessagePayload {
@@ -40,4 +43,21 @@ pub struct ChangeUsernamePayload {
 pub struct SendFriendRequestPayload {
     /// Friend's usernane
     pub username: String,
+}
+
+/// Edit channel data
+#[derive(Serialize, Debug, Clone)]
+pub struct EditChannelPayload {
+    /// Channel name
+    pub name: Option<String>,
+    /// Channel description
+    pub description: Option<String>,
+    /// Group owner
+    pub owner: Option<String>,
+    /// Icon attachment ID
+    pub icon: Option<String>,
+    /// Whether this channel is age-restricted
+    pub nsfw: Option<bool>,
+    /// Fields to remove
+    pub remove: Option<Vec<FieldsChannel>>,
 }
