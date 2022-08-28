@@ -2,13 +2,34 @@ use serde::Serialize;
 
 use crate::{
     channel::FieldsChannel,
-    permission::Override,
+    embed::SendableEmbed,
+    message::{Interactions, Masquerade, MessageSort, Reply},
+    permission::{Override, Permission},
     user::{FieldsUser, PartialUserProfile, UserStatus},
 };
 
 #[derive(Serialize, Debug, Clone)]
 pub struct SendMessagePayload {
-    pub content: String,
+    /// Message content to send
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content: Option<String>,
+    /// Attachments to include in message
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub attachments: Option<Vec<String>>,
+    /// Messages to reply to
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub replies: Option<Vec<Reply>>,
+    /// Embeds to include in message
+    ///
+    /// Text embed content contributes to the content length cap
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub embeds: Option<Vec<SendableEmbed>>,
+    /// Masquerade to apply to this message
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masquerade: Option<Masquerade>,
+    /// Information about how this message should be interacted with
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub interactions: Option<Interactions>,
 }
 
 /// User data
@@ -82,10 +103,84 @@ pub struct SetRolePermissionPayload {
 pub enum SetDefaultPermissionPayload {
     Value {
         /// Permission values to set for members in a [Channel::Group]
-        pub permissions: Permission,
+        permissions: Permission,
     },
     Field {
         /// Allow / deny values to set for members in this [Channels::TextChannel] or [Channels::VoiceChannel]
-        pub permissions: Override,
+        permissions: Override,
     },
+}
+
+/// Query parameters
+#[derive(Serialize, Debug, Clone)]
+pub struct FetchMessagesPayload {
+    /// Maximum number of messages to fetch
+    ///
+    /// For fetching nearby messages, this is `(limit + 1)`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub limit: Option<i64>,
+    /// Message id before which messages should be fetched
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub before: Option<String>,
+    /// Message id after which messages should be fetched
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub after: Option<String>,
+    /// Message sort direction
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sort: Option<MessageSort>,
+    /// Message id to search around
+    ///
+    /// Specifying 'nearby' ignores 'before', 'after' and 'sort'.
+    /// It will also take half of limit rounded as the limits to each side.
+    /// It also fetches the message ID specified.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nearby: Option<String>,
+    /// Whether to include user (and member, if server channel) objects
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_users: Option<bool>,
+}
+
+/// Search Parameters
+#[derive(Serialize, Debug, Clone)]
+pub struct SearchForMessagesPayload {
+    /// Full-text search query
+    ///
+    /// See [MongoDB documentation](https://docs.mongodb.com/manual/text-search/#-text-operator) for more information.
+    pub query: String,
+
+    /// Maximum number of messages to fetch
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub limit: Option<i64>,
+    /// Message id before which messages should be fetched
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub before: Option<String>,
+    /// Message id after which messages should be fetched
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub after: Option<String>,
+    /// Message sort direction
+    ///
+    /// By default, it will be sorted by relevance.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sort: Option<MessageSort>,
+    /// Whether to include user (and member, if server channel) objects
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub include_users: Option<bool>,
+}
+
+/// Message details
+#[derive(Serialize, Debug, Clone)]
+pub struct EditMessagePayload {
+    /// New message content
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub content: Option<String>,
+    /// Embeds to include in the message
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub embeds: Option<Vec<SendableEmbed>>,
+}
+
+/// Search parameters
+#[derive(Serialize, Debug, Clone)]
+pub struct BulkDeleteMessagesPayload {
+    /// Message IDs
+    pub ids: Vec<String>,
 }

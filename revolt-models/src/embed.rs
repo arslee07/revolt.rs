@@ -1,5 +1,5 @@
 use crate::attachment::Attachment;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 /// Embed
 #[derive(Deserialize, Debug, Clone)]
@@ -10,6 +10,23 @@ pub enum Embed {
     Video(Video),
     Text(Text),
     None,
+}
+
+/// Representation of a text embed before it is sent.
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct SendableEmbed {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub icon_url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub url: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub title: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub description: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub media: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub colour: Option<String>,
 }
 
 /// Image

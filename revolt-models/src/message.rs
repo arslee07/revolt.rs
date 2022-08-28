@@ -1,8 +1,8 @@
 use iso8601_timestamp::Timestamp;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 
-use crate::{attachment::Attachment, embed::Embed};
+use crate::{attachment::Attachment, embed::Embed, member::Member, user::User};
 
 /// Channel message
 #[derive(Deserialize, Debug, Clone)]
@@ -101,22 +101,24 @@ pub struct PartialMessage {
 }
 
 /// Information to guide interactions on this message
-#[derive(Deserialize, Debug, Clone, Default)]
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Interactions {
     /// Reactions which should always appear and be distinct
-    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none", default)]
     pub reactions: Option<HashSet<String>>,
     /// Whether reactions should be restricted to the given list
     #[serde(default)]
     pub restrict_reactions: bool,
 }
 
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Masquerade {
     /// Replace the display name shown on this message
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
 
     /// Replace the avatar shown on this message (URL to image file)
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub avatar: Option<String>,
 
     /// Replace the display role colour shown on this message
@@ -124,6 +126,7 @@ pub struct Masquerade {
     /// Must have `ManageRole` permission to use
     ///
     /// This can be any valid CSS colour
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub colour: Option<String>,
 }
 
@@ -143,9 +146,47 @@ pub enum SystemMessage {
     ChannelIconChanged { by: String },
 }
 
+/// Sort used for retrieving messages
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub enum MessageSort {
+    /// Sort by the most relevant messages
+    Relevance,
+    /// Sort by the newest messages first
+    Latest,
+    /// Sort by the oldest messages first
+    Oldest,
+}
+
 /// Appended Information
 #[derive(Deserialize, Debug, Clone)]
 pub struct AppendMessage {
     /// Additional embeds to include in this message
     pub embeds: Option<Vec<Embed>>,
+}
+
+/// Response used when multiple messages are fetched
+#[derive(Deserialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum BulkMessageResponse {
+    JustMessages(
+        /// List of messages
+        Vec<Message>,
+    ),
+    MessagesAndUsers {
+        /// List of messages
+        messages: Vec<Message>,
+        /// List of users
+        users: Vec<User>,
+        /// List of members
+        members: Option<Vec<Member>>,
+    },
+}
+
+/// Representation of a message reply before it is sent
+#[derive(Serialize, Clone, Debug)]
+pub struct Reply {
+    /// Message ID
+    pub id: String,
+    /// Whether this reply should mention the message's author
+    pub mention: bool,
 }
