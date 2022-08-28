@@ -17,17 +17,15 @@ impl RevoltHttp {
     }
 
     /// Deletes a server channel, leaves a group or closes a group.
-    pub async fn close_channel(&self, id: impl Into<String>) -> Result<Channel> {
-        Ok(self
-            .client
+    pub async fn close_channel(&self, id: impl Into<String>) -> Result<()> {
+        self.client
             .delete(ep!(self, "/channels/{}", id.into()))
             .auth(&self.authentication)
             .send()
             .await?
             .process_error()
-            .await?
-            .json()
-            .await?)
+            .await?;
+        Ok(())
     }
 
     /// Edit a channel object by its id.
