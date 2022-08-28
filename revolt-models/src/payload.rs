@@ -49,15 +49,21 @@ pub struct SendFriendRequestPayload {
 #[derive(Serialize, Debug, Clone)]
 pub struct EditChannelPayload {
     /// Channel name
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub name: Option<String>,
     /// Channel description
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
     /// Group owner
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub owner: Option<String>,
     /// Icon attachment ID
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub icon: Option<String>,
     /// Whether this channel is age-restricted
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub nsfw: Option<bool>,
     /// Fields to remove
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub remove: Option<Vec<FieldsChannel>>,
 }
