@@ -34,3 +34,10 @@ pub struct ChangeUsernamePayload {
     /// Current username password
     pub password: String,
 }
+
+/// Send friend request data
+#[derive(Serialize, Debug, Clone)]
+pub struct SendFriendRequestPayload {
+    /// Friend's usernane
+    pub username: String,
+}

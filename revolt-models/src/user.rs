@@ -24,6 +24,15 @@ pub struct Relationship {
     pub status: RelationshipStatus,
 }
 
+/// Mutual servers and friends
+#[derive(Deserialize, Debug, Clone)]
+pub struct Mutuals {
+    /// Array of mutual user IDs that both users are friends with
+    pub users: Vec<String>,
+    /// Array of mutual server IDs that both users are in
+    pub servers: Vec<String>,
+}
+
 /// Presence status
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub enum Presence {
