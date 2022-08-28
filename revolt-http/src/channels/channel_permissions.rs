@@ -1,5 +1,8 @@
 use crate::prelude::*;
-use revolt_models::{channel::Channel, payload::SetRolePermissionPayload};
+use revolt_models::{
+    channel::Channel,
+    payload::{SetDefaultPermissionPayload, SetRolePermissionPayload},
+};
 
 impl RevoltHttp {
     /// Sets permissions for the specified role in this channel.
