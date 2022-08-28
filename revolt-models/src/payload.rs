@@ -2,6 +2,7 @@ use serde::Serialize;
 
 use crate::{
     channel::FieldsChannel,
+    permission::Override,
     user::{FieldsUser, PartialUserProfile, UserStatus},
 };
 
@@ -66,4 +67,25 @@ pub struct EditChannelPayload {
     /// Fields to remove
     #[serde(skip_serializing_if = "Option::is_none")]
     pub remove: Option<Vec<FieldsChannel>>,
+}
+
+/// Set role permission payload data
+#[derive(Serialize, Debug, Clone)]
+pub struct SetRolePermissionPayload {
+    /// Representation of a single permission override
+    pub permissions: Override,
+}
+
+/// Set role permission payload data
+#[derive(Serialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum SetDefaultPermissionPayload {
+    Value {
+        /// Permission values to set for members in a [Channel::Group]
+        pub permissions: Permission,
+    },
+    Field {
+        /// Allow / deny values to set for members in this [Channels::TextChannel] or [Channels::VoiceChannel]
+        pub permissions: Override,
+    },
 }

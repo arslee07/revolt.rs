@@ -102,3 +102,12 @@ pub struct OverrideField {
     /// Disallow bit flags
     d: Permission,
 }
+
+/// Representation of a single permission override
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct Override {
+    /// Allow bit flags
+    allow: Permission,
+    /// Disallow bit flags
+    deny: Permission,
+}
