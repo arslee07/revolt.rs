@@ -184,3 +184,14 @@ pub struct BulkDeleteMessagesPayload {
     /// Message IDs
     pub ids: Vec<String>,
 }
+
+/// Reactions remove options
+#[derive(Serialize, Debug, Clone)]
+pub struct RemoveReactionToMessagePayload {
+    /// Remove a specific user's reaction
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub user_id: Option<String>,
+    /// Remove all reactions
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub remove_all: Option<bool>,
+}
