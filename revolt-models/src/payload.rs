@@ -195,3 +195,19 @@ pub struct RemoveReactionToMessagePayload {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub remove_all: Option<bool>,
 }
+
+/// Group create data
+#[derive(Serialize, Debug, Clone)]
+pub struct CreateGroupPayload {
+    /// Group name
+    name: String,
+    /// Group description
+    description: Option<String>,
+    /// Array of user IDs to add to the group
+    ///
+    /// Must be friends with these users.
+    users: Vec<String>,
+    /// Whether this group is age-restricted
+    #[serde(skip_serializing_if = "Option::is_none")]
+    nsfw: Option<bool>,
+}
