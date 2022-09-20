@@ -11,6 +11,7 @@ pub mod payload;
 pub mod permission;
 pub mod server;
 pub mod user;
+pub mod voice;
 
 mod error;
 pub use error::ApiError;
