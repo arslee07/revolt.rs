@@ -1,6 +1,7 @@
 use serde::Serialize;
 
 use crate::{
+    bot::FieldsBot,
     channel::FieldsChannel,
     embed::SendableEmbed,
     message::{Interactions, Masquerade, MessageSort, Reply},
@@ -210,4 +211,49 @@ pub struct CreateGroupPayload {
     /// Whether this group is age-restricted
     #[serde(skip_serializing_if = "Option::is_none")]
     nsfw: Option<bool>,
+}
+
+/// Bot create data
+#[derive(Serialize, Debug, Clone)]
+pub struct CreateBotPayload {
+    /// Bot username
+    name: String,
+}
+
+/// Bot invite data
+#[derive(Serialize, Debug, Clone)]
+#[serde(untagged)]
+pub enum InviteBotPayload {
+    /// Invite to a server
+    Server {
+        /// Server Id
+        server: String,
+    },
+    /// Invite to a group
+    Group {
+        /// Group Id
+        group: String,
+    },
+}
+
+/// Bot edit data
+#[derive(Serialize, Debug, Clone)]
+pub struct EditBotPayload {
+    /// Bot username
+    #[serde(skip_serializing_if = "Option::is_none")]
+    name: Option<String>,
+    /// Whether the bot can be added by anyone
+    #[serde(skip_serializing_if = "Option::is_none")]
+    public: Option<bool>,
+    /// Whether analytics should be gathered for this bot
+    ///
+    /// Must be enabled in order to show up on [Revolt Discover](https://rvlt.gg).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    analytics: Option<bool>,
+    /// Interactions URL
+    #[serde(skip_serializing_if = "Option::is_none")]
+    interactions_url: Option<String>,
+    /// Fields to remove from bot object
+    #[serde(skip_serializing_if = "Option::is_none")]
+    remove: Option<Vec<FieldsBot>>,
 }

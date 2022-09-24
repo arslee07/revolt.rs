@@ -1,3 +1,4 @@
+mod bots;
 mod channels;
 mod revolt;
 mod servers;
