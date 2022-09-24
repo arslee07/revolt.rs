@@ -147,7 +147,7 @@ pub struct User {
     pub profile: Option<UserProfile>,
 
     /// Enum of user flags
-    pub flags: Option<i32>,
+    pub flags: Option<UserFlags>,
     /// Whether this user is privileged
     #[serde(default)]
     pub privileged: bool,
@@ -181,7 +181,7 @@ pub struct PartialUser {
     pub profile: Option<UserProfile>,
 
     /// Enum of user flags
-    pub flags: Option<i32>,
+    pub flags: Option<UserFlags>,
     /// Whether this user is privileged
     pub privileged: Option<bool>,
     /// Bot information
