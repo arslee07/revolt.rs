@@ -141,6 +141,19 @@ pub struct PartialChannel {
     pub last_message_id: Option<String>,
 }
 
+/// Channel type
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+pub enum ChannelType {
+    Text,
+    Voice,
+}
+
+impl Default for ChannelType {
+    fn default() -> Self {
+        ChannelType::Text
+    }
+}
+
 /// Optional fields on channel object
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub enum FieldsChannel {

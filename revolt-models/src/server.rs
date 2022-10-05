@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::{
     attachment::Attachment,
@@ -44,7 +44,7 @@ pub struct PartialRole {
 }
 
 /// Channel category
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Category {
     /// Unique ID for this category
     pub id: String,
@@ -55,7 +55,7 @@ pub struct Category {
 }
 
 /// System message channel assignments
-#[derive(Deserialize, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct SystemMessageChannels {
     /// ID of channel to send user join messages in
     pub user_joined: Option<String>,
@@ -165,7 +165,7 @@ pub struct PartialServer {
 }
 
 /// Optional fields on server object
-#[derive(Deserialize, Debug, PartialEq, Clone)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub enum FieldsServer {
     Description,
     Categories,

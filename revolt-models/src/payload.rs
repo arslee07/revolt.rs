@@ -2,10 +2,11 @@ use serde::Serialize;
 
 use crate::{
     bot::FieldsBot,
-    channel::FieldsChannel,
+    channel::{ChannelType, FieldsChannel},
     embed::SendableEmbed,
     message::{Interactions, Masquerade, MessageSort, Reply},
     permission::{Override, Permission},
+    server::{Category, FieldsServer, SystemMessageChannels},
     user::{FieldsUser, PartialUserProfile, UserStatus},
 };
 
@@ -241,19 +242,77 @@ pub enum InviteBotPayload {
 pub struct EditBotPayload {
     /// Bot username
     #[serde(skip_serializing_if = "Option::is_none")]
-    name: Option<String>,
+    pub name: Option<String>,
     /// Whether the bot can be added by anyone
     #[serde(skip_serializing_if = "Option::is_none")]
-    public: Option<bool>,
+    pub public: Option<bool>,
     /// Whether analytics should be gathered for this bot
     ///
     /// Must be enabled in order to show up on [Revolt Discover](https://rvlt.gg).
     #[serde(skip_serializing_if = "Option::is_none")]
-    analytics: Option<bool>,
+    pub analytics: Option<bool>,
     /// Interactions URL
     #[serde(skip_serializing_if = "Option::is_none")]
-    interactions_url: Option<String>,
+    pub interactions_url: Option<String>,
     /// Fields to remove from bot object
     #[serde(skip_serializing_if = "Option::is_none")]
-    remove: Option<Vec<FieldsBot>>,
+    pub remove: Option<Vec<FieldsBot>>,
+}
+
+/// Create server data
+#[derive(Serialize, Debug, Clone)]
+pub struct CreateServerPayload {
+    /// Server name
+    pub name: String,
+    /// Server description
+    pub description: Option<String>,
+    /// Whether this server is age-restricted
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nsfw: Option<bool>,
+}
+
+/// Edit server data
+#[derive(Serialize, Debug, Clone)]
+pub struct EditServerPayload {
+    /// Server name
+    pub name: Option<String>,
+    /// Server description
+    pub description: Option<String>,
+
+    /// Attachment Id for icon
+    pub icon: Option<String>,
+    /// Attachment Id for banner
+    pub banner: Option<String>,
+
+    /// Category structure for server
+    pub categories: Option<Vec<Category>>,
+    /// System message configuration
+    pub system_messages: Option<SystemMessageChannels>,
+
+    // Whether this server is age-restricted
+    pub nsfw: Option<bool>,
+    /// Whether this server is public and should show up on [Revolt Discover](https://rvlt.gg)
+    pub discoverable: Option<bool>,
+    /// Whether analytics should be collected for this server
+    ///
+    /// Must be enabled in order to show up on [Revolt Discover](https://rvlt.gg).
+    pub analytics: Option<bool>,
+
+    /// Fields to remove from server object
+    pub remove: Option<Vec<FieldsServer>>,
+}
+
+/// Create channel data
+#[derive(Serialize, Debug, Clone)]
+pub struct CreateChannelPayload {
+    /// Channel type
+    #[serde(rename = "type", default = "ChannelType::default")]
+    pub channel_type: ChannelType,
+    /// Channel name
+    pub name: String,
+    /// Channel description
+    pub description: Option<String>,
+    /// Whether this channel is age restricted
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub nsfw: Option<bool>,
 }
